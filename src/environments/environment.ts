@@ -3,7 +3,14 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyDB6ZwuGIgnzSy8z459Nk9BT5TU4XrU_Fk',
+    authDomain: 'raidsignup-a4679.firebaseapp.com',
+    // databaseURL: '<your-database-URL>',
+    projectId: 'raidsignup-a4679',
+    messagingSenderId: '287057452309'
+  }
 };
 
 /*
