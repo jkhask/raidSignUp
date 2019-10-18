@@ -1,10 +1,10 @@
 <mat-toolbar>
   <span [routerLink]="['/']">Raid Sign Up</span>
   <span class="fill"></span>
-  <button mat-button (click)="logout()" *ngIf="(afAuth.user | async)?.uid">
+  <button mat-button (click)="logout()" *ngIf="(user.afAuth.user | async)?.uid">
     <mat-icon>person</mat-icon><span>Log Out</span>
   </button>
-  <button mat-button (click)="login()" *ngIf="!(afAuth.user | async)?.uid">
+  <button mat-button (click)="login()" *ngIf="!(user.afAuth.user | async)?.uid">
     <mat-icon>person</mat-icon><span>Log In</span>
   </button>
 </mat-toolbar>

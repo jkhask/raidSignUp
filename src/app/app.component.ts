@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { auth } from 'firebase/app';
 import { MatDialog } from '@angular/material/dialog';
 import { CharacterComponent } from './character/character.component';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
@@ -12,40 +11,30 @@ import { CharacterComponent } from './character/character.component';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, private dialog: MatDialog) { }
+  constructor(private user: UserService, private afs: AngularFirestore, private dialog: MatDialog) { }
 
   ngOnInit() {
-
+    // console.log(this.user.uid);
   }
 
   async login() {
-    const creds = await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
-    this.checkCharacter(creds.user.uid);
+    const creds = await this.user.login();
+    const charDataExists = await this.user.checkCharacter(creds.user.uid);
+    if (!charDataExists) this.openCharModal(creds.user.uid);
   }
 
-  async checkCharacter(uid) {
-    const playersCollection: AngularFirestoreCollection<any> = this.afs.collection<any>('players');
-    const player = await playersCollection.doc(uid).get().toPromise();
-    if (player.exists) {
-      // pull player's char/spec
-      console.log(player.data());
-      // load player service?
-    } else {
-      this.openCharModal(uid);
-    }
+  async logout() {
+    await this.user.logout();
   }
+
+  
 
   openCharModal(uid) {
     const dialogRef = this.dialog.open(CharacterComponent, {
       width: '250px',
       data: {uid},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      // todo
+      disableClose: true
     });
   }
 
-  logout() {
-    this.afAuth.auth.signOut();
-  }
 }

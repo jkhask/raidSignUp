@@ -9,12 +9,12 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { MaterialModule } from './material/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { LoginComponent } from './login/login.component';
 import { RaidListComponent } from './raid-list/raid-list.component';
 import { RaidComponent } from './raid/raid.component';
 import { CharacterComponent } from './character/character.component';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { FormsModule } from '@angular/forms';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
-    FormsModule
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
