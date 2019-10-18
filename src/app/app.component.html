@@ -1,9 +1,13 @@
-<mat-toolbar>Yo</mat-toolbar>
-<div *ngIf="afAuth.user | async as user; else showLogin">
-  <h1>Hello {{ user.displayName }}!</h1>
-  <button (click)="logout()">Logout</button>
+<mat-toolbar>
+  <span [routerLink]="['/']">Raid Sign Up</span>
+  <span class="fill"></span>
+  <button mat-button (click)="logout()" *ngIf="(afAuth.user | async)?.uid">
+    <mat-icon>person</mat-icon><span>Log Out</span>
+  </button>
+  <button mat-button (click)="login()" *ngIf="!(afAuth.user | async)?.uid">
+    <mat-icon>person</mat-icon><span>Log In</span>
+  </button>
+</mat-toolbar>
+<div class="padding">
+  <router-outlet></router-outlet>
 </div>
-<ng-template #showLogin>
-  <p>Please login.</p>
-  <button (click)="login()">Login with Google</button>
-</ng-template>

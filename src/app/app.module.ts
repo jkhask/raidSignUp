@@ -9,10 +9,23 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { MaterialModule } from './material/material.module';
+import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { LoginComponent } from './login/login.component';
+import { RaidListComponent } from './raid-list/raid-list.component';
+import { RaidComponent } from './raid/raid.component';
+import { CharacterComponent } from './character/character.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    RaidListComponent,
+    RaidComponent,
+    CharacterComponent
+  ],
+  entryComponents: [
+    CharacterComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +35,8 @@ import { MaterialModule } from './material/material.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireAuthGuardModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

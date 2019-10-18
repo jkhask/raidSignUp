@@ -1,0 +1,8 @@
+<div class="padding" *ngIf="afAuth.user | async as user; else showLogin">
+    <h1>Hello {{ user.displayName }}!</h1>
+    <button (click)="logout()">Logout</button>
+</div>
+<ng-template #showLogin class="padding">
+    <p>Please login.</p>
+    <button mat-button (click)="login()">Login with Google</button>
+</ng-template>
