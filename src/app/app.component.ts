@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { CharacterComponent } from './character/character.component';
 import { UserService } from './user.service';
@@ -11,7 +10,7 @@ import { UserService } from './user.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private user: UserService, private afs: AngularFirestore, private dialog: MatDialog) { }
+  constructor(private user: UserService, private dialog: MatDialog) { }
 
   ngOnInit() {
     // console.log(this.user.uid);
@@ -20,20 +19,18 @@ export class AppComponent implements OnInit {
   async login() {
     const creds = await this.user.login();
     const charDataExists = await this.user.checkCharacter(creds.user.uid);
-    if (!charDataExists) this.openCharModal(creds.user.uid);
+    // if we don't already have WoW character data for this user, they must add it now
+    if (!charDataExists) { this.openCharModal(true); }
   }
 
   async logout() {
     await this.user.logout();
   }
 
-  
-
-  openCharModal(uid) {
+  async openCharModal(disableClose: boolean) {
     const dialogRef = this.dialog.open(CharacterComponent, {
       width: '250px',
-      data: {uid},
-      disableClose: true
+      disableClose
     });
   }
 

@@ -1,12 +1,14 @@
 <div class="flex">
-   <mat-card *ngFor="let raid of raids$ | async" class="raid">
-    <mat-card-header>
-        <!-- <div mat-card-avatar class="example-header-image"></div> -->
-        <mat-card-title><span [matBadge]="raid.capacity" matBadgeOverlap="false">{{raid.name}}</span></mat-card-title>
-        <mat-card-subtitle>{{raid.date.toDate() | date: 'MMM dd h:mm a'}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-actions class="flex flex-center">
-        <button *ngIf="raid.date.toDate() > now" mat-button [routerLink]="['/raid', raid.id]">SIGN UP</button>
-    </mat-card-actions>
-</mat-card> 
+    <mat-card *ngFor="let raid of raid.raids$ | async" class="raid">
+        <mat-card-header>
+            <!-- <div mat-card-avatar class="example-header-image"></div> -->
+            <mat-card-title><span [matBadge]="raid.capacity" matBadgeOverlap="false">{{raid.name}}</span>
+            </mat-card-title>
+            <mat-card-subtitle>{{raid.date.toDate() | date: 'MMM dd h:mm a'}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions class="flex flex-center">
+            <button mat-button *ngIf="raid.date.toDate() > now" [routerLink]="['/raid', raid.id]" [disabled]="">SIGN
+                UP</button>
+        </mat-card-actions>
+    </mat-card>
 </div>

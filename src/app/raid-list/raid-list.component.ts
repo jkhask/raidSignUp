@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-export interface Raid { name: string; date: Date; capacity: number; }
+import { RaidService } from '../raid.service';
 
 @Component({
   selector: 'app-raid-list',
@@ -12,23 +8,12 @@ export interface Raid { name: string; date: Date; capacity: number; }
 })
 export class RaidListComponent implements OnInit {
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(private raid: RaidService) { }
 
   now: Date;
 
-  raidsCollection: AngularFirestoreCollection<Raid>;
-  raids$: Observable<Raid[]>;
-
   ngOnInit() {
     this.now = new Date();
-    this.raidsCollection = this.afs.collection<Raid>('raids', r => r.orderBy('date', 'desc'));
-    this.raids$ = this.raidsCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Raid;
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      }))
-    );
   }
 
 }

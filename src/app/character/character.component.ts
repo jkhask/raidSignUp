@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AngularFirestoreCollection } from '@angular/fire/firestore';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-character',
@@ -10,35 +10,37 @@ import { AngularFirestoreCollection } from '@angular/fire/firestore';
 })
 export class CharacterComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data, private dialogRef:MatDialogRef<CharacterComponent>) { }
+  constructor(private user: UserService, private dialogRef: MatDialogRef<CharacterComponent>) { }
 
   classForm: FormGroup;
-  playersCollection: AngularFirestoreCollection<any>;
-  uid: string;
-
-  result: any;
 
   classes = ['druid', 'hunter', 'mage', 'priest', 'rogue', 'shaman', 'warlock', 'warrior'];
   roles = ['tank', 'dps', 'heals'];
 
   ngOnInit() {
-    this.playersCollection = this.data.playersCollection;
-    this.uid = this.data.uid;
     this.classForm = new FormGroup({
       charName: new FormControl('', [Validators.required]),
       class: new FormControl('', [Validators.required]),
       role: new FormControl('', [Validators.required]),
     });
+    if (this.user.player) {
+      this.classForm.setValue({
+        charName: this.user.player.charName,
+        class: this.user.player.class,
+        role: this.user.player.role,
+      });
+    }
   }
 
   async submitClassForm() {
-    const payload = {
+    const player = {
       charName: this.classForm.get('charName').value,
       class: this.classForm.get('class').value,
       role: this.classForm.get('role').value
-    }
-    await this.playersCollection.doc(this.uid).set(payload);
-    this.dialogRef.close(payload);
+    };
+    await this.user.addCharacterInfo(player);
+    this.user.player = player;
+    this.dialogRef.close();
   }
 
 }
