@@ -9,6 +9,7 @@ import { UserService } from './user.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  objectKeys = Object.keys;
 
   constructor(private user: UserService, private dialog: MatDialog) { }
 

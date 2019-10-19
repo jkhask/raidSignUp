@@ -1,9 +1,9 @@
 <h1>{{(raid$ | async)?.name}}</h1>
 <div class="class-col-container flex">
-    <div class="class-col flex flex-col" *ngFor="let class of classes">
-        <h4>{{class}}</h4>
-        <div *ngFor="let player of (raid$ | async)?.players">
-            <app-player [docRef]="player"></app-player>
+    <div class="class-col flex flex-col" *ngFor="let class of classes | keyvalue">
+        <h4>{{class.key}}</h4>
+        <div *ngFor="let player of class.value">
+            <mat-card [ngClass]="class.key">{{player.charName}}</mat-card>
         </div>
     </div>
 </div>

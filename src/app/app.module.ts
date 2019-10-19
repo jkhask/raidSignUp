@@ -15,7 +15,6 @@ import { LoginComponent } from './login/login.component';
 import { RaidListComponent } from './raid-list/raid-list.component';
 import { RaidComponent } from './raid/raid.component';
 import { CharacterComponent } from './character/character.component';
-import { PlayerComponent } from './player/player.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { PlayerComponent } from './player/player.component';
     RaidListComponent,
     RaidComponent,
     CharacterComponent,
-    PlayerComponent
   ],
   entryComponents: [
     CharacterComponent
