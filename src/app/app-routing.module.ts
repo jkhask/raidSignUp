@@ -7,7 +7,8 @@ import { RaidListComponent } from './raid-list/raid-list.component';
 
 const routes: Routes = [
   { path: '', component: RaidListComponent},
-  { path: 'raid/:id', component: RaidComponent, canActivate: [AngularFireAuthGuard]},
+  { path: 'raid/:id', component: RaidComponent, // canActivate: [AngularFireAuthGuard]
+  },
   // { path: '**', component: PageNotFoundComponent }
 ];
 

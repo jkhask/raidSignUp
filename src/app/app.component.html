@@ -1,8 +1,11 @@
 <mat-toolbar>
-  <span [routerLink]="['/']">Raid Sign Up</span>
+  <span [routerLink]="['/']" class="cursor-pointer">Raid Sign Up</span>
   <span class="fill"></span>
   <button mat-raised-button [ngClass]="user.player.class" *ngIf="user.player" (click)="openCharModal(false)">
     {{user.player.charName}}
+  </button>
+  <button mat-raised-button *ngIf="(user.afAuth.user | async)?.uid && !user.player" (click)="openCharModal(true)">
+    Set Character
   </button>
   <button mat-button (click)="logout()" *ngIf="(user.afAuth.user | async)?.uid">
     <mat-icon>person</mat-icon><span>Log Out</span>

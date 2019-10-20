@@ -1,9 +1,26 @@
-<h1>{{(raid$ | async)?.name}}</h1>
-<div class="class-col-container flex">
-    <div class="class-col flex flex-col" *ngFor="let class of classes | keyvalue">
-        <h4>{{class.key}}</h4>
-        <div *ngFor="let player of class.value">
-            <mat-card [ngClass]="class.key">{{player.charName}}</mat-card>
+<div class="header flex align-bottom">
+    <div class="main-info">
+        <h1>{{(raid$ | async)?.name}}</h1>
+        <h2>{{(raid$ | async)?.date.toDate() | date: 'MMM dd h:mm a'}}</h2>
+        <h3>{{(raid$ | async)?.players.length}} / {{(raid$ | async)?.capacity}}</h3>
+    </div>
+    <span class="fill"></span>  
+    <div class="actions">
+        <button mat-stroked-button color="primary" (click)="addPlayerToRaid(id, user.player)" [disabled]="(raid$ | async)?.date.toDate() < now">SIGN UP</button>
+        <button mat-stroked-button color="warn" (click)="removePlayerFromRaid(id, user.player)" [disabled]="(raid$ | async)?.date.toDate() < now">UN-SIGN UP</button>
+    </div>
+</div>
+<div class="flex flex-center">
+    <div class="class-col-container flex flex-wrap">
+        <div class="class-col flex flex-col flex-center" *ngFor="let class of (raid$ | async)?.classes | keyvalue">
+            <h4>{{class.key}}</h4>
+            <mat-card [ngClass]="class.key" class="character flex flex-center flex-col" *ngFor="let player of class.value">
+                <span class="char-name">{{player.charName}}</span>
+                <img class="role-icon" [src]="'assets/'+player.role+'.svg'">
+            </mat-card>
         </div>
     </div>
 </div>
+<h4>Tanks: {{(raid$ | async)?.roles.tank.length}}</h4>
+<h4>DPS: {{(raid$ | async)?.roles.dps.length}}</h4>
+<h4>Heals: {{(raid$ | async)?.roles.heals.length}}</h4>

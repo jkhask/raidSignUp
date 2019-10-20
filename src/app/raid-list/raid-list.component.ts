@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RaidService } from '../raid.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-raid-list',
@@ -8,7 +9,7 @@ import { RaidService } from '../raid.service';
 })
 export class RaidListComponent implements OnInit {
 
-  constructor(private raid: RaidService) { }
+  constructor(private raid: RaidService, private user: UserService) { }
 
   now: Date;
 

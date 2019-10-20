@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RaidService, Raid } from '../raid.service';
 import { Observable } from 'rxjs';
-import { Player } from '../user.service';
+import { Player, UserService } from '../user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -12,17 +13,21 @@ import { Player } from '../user.service';
 })
 export class RaidComponent implements OnInit {
 
+  now: Date;
   classes: any;
+  filter: string;
 
-  constructor(private route: ActivatedRoute, private raid: RaidService) { }
+  constructor(private route: ActivatedRoute, private raid: RaidService, private user: UserService, private snackBar: MatSnackBar) { }
 
   id: string;
   raid$: Observable<Raid>;
   players: Player[];
   druids: Player[];
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.now = new Date();
     this.players = [];
+    this.filter = 'class';
     this.classes = {
       druid: [],
       hunter: [],
@@ -34,19 +39,27 @@ export class RaidComponent implements OnInit {
       warrior: []
     };
     this.id = this.route.snapshot.paramMap.get('id');
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('signUp') && JSON.parse(urlParams.get('signUp'))) {
+      await this.raid.addPlayerToRaid(this.id, this.user.player).catch(e => {
+        this.snackBar.open(e, 'OK', {
+          duration: 2000
+        });
+      });
+    }
     this.raid$ = this.raid.getRaid(this.id);
-    this.raid$.subscribe(async res => {
-      this.players = [];
-      for (const playerRef of res.players) {
-        this.players.push((await playerRef.get()).data());
-      }
-      this.sortPlayers();
+  }
+
+  addPlayerToRaid(raidId: string, player: Player): Promise<void> {
+    return this.raid.addPlayerToRaid(raidId, player).catch(e => {
+      this.snackBar.open(e, 'OK', { duration: 2000  });
     });
   }
 
-  sortPlayers() {
-    this.classes.druid = this.players.filter(p => p.class === 'druid');
-    this.classes.priest = this.players.filter(p => p.class === 'priest');
+  removePlayerFromRaid(raidId: string, player: Player) {
+    return this.raid.removePlayerFromRaid(raidId, player).catch(e => {
+      this.snackBar.open(e, 'OK', { duration: 2000 });
+    });
   }
 
 }

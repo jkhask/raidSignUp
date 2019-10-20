@@ -9,7 +9,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { MaterialModule } from './material/material.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 import { LoginComponent } from './login/login.component';
 import { RaidListComponent } from './raid-list/raid-list.component';
@@ -36,7 +36,8 @@ import { CharacterComponent } from './character/character.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireAuthGuardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

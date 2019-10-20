@@ -1,9 +1,26 @@
+.header {
+    .actions {
+        button {
+            margin-left: 10px;
+        }
+    }
+}
 .class-col-container {
-    width: 100%;
+    // width: 100%;
     align-items: flex-start;
     .class-col {
-        width: 200px;
+        width: 120px;
         align-items: center;
         justify-content: space-around;
+        .character {
+            width: 80px;
+            .char-name {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            .role-icon {
+                height: 22px;
+            }
+        }
     }
 }
