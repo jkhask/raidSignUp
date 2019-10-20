@@ -40,9 +40,9 @@ export class RaidService {
         raidData.classes.warlock = raidData.players.filter(p => p.class === 'warlock');
         raidData.classes.warrior = raidData.players.filter(p => p.class === 'warrior');
         raidData.roles = {};
-        raidData.roles.tank = raidData.players.filter(p => p.role === 'tank')
-        raidData.roles.dps = raidData.players.filter(p => p.role === 'dps')
-        raidData.roles.heals = raidData.players.filter(p => p.role === 'heals')
+        raidData.roles.tank = raidData.players.filter(p => p.role === 'tank');
+        raidData.roles.dps = raidData.players.filter(p => p.role === 'dps');
+        raidData.roles.heals = raidData.players.filter(p => p.role === 'heals');
         return raidData;
       })
     );
