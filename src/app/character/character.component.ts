@@ -17,17 +17,18 @@ export class CharacterComponent implements OnInit {
   classes = ['druid', 'hunter', 'mage', 'priest', 'rogue', 'shaman', 'warlock', 'warrior'];
   roles = ['tank', 'dps', 'heals'];
 
-  ngOnInit() {
+  async ngOnInit() {
     this.classForm = new FormGroup({
       charName: new FormControl('', [Validators.required]),
       class: new FormControl('', [Validators.required]),
       role: new FormControl('', [Validators.required]),
     });
-    if (this.user.player) {
+    const player = await this.user.player$.toPromise();
+    if (player) {
       this.classForm.setValue({
-        charName: this.user.player.charName,
-        class: this.user.player.class,
-        role: this.user.player.role,
+        charName: player.charName,
+        class: player.class,
+        role: player.role,
       });
     }
   }
@@ -39,7 +40,7 @@ export class CharacterComponent implements OnInit {
       role: this.classForm.get('role').value
     };
     await this.user.addCharacterInfo(player);
-    this.user.player = player;
+    // this.user.player = player;
     this.dialogRef.close();
   }
 

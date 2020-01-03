@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { tap, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export interface Player { charName: string; class: string; role: string; }
 
@@ -11,18 +13,14 @@ export interface Player { charName: string; class: string; role: string; }
 export class UserService {
 
   playersCollection: AngularFirestoreCollection<Player>;
+  player$: Observable<Player>;
   uid: string;
-  player: any;
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
     this.playersCollection = this.afs.collection<Player>('players');
     this.afAuth.authState.subscribe(res => {
       if (res) {
-        this.uid = res.uid;
-        this.checkCharacter(this.uid);
-      } else {
-        this.uid = undefined;
-        this.player = undefined;
+        this.hydrateCharacter(res.uid);
       }
     });
   }
@@ -35,14 +33,10 @@ export class UserService {
     return this.afAuth.auth.signOut();
   }
 
-  async checkCharacter(uid: string) {
-    const player = await this.playersCollection.doc(uid).get().toPromise();
-    if (player.exists) {
-      this.player = player.data();
-      return true;
-    } else {
-      return false;
-    }
+  hydrateCharacter(uid: string): void {
+    this.uid = uid;
+    this.player$ = this.playersCollection.doc(uid).get()
+      .pipe(map(player => player.data() as Player));
   }
 
   addCharacterInfo(player: Player): Promise<void> {

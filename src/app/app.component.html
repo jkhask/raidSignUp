@@ -1,10 +1,10 @@
 <mat-toolbar>
   <span [routerLink]="['/']" class="cursor-pointer">Raid Sign Up</span>
   <span class="fill"></span>
-  <button mat-raised-button [ngClass]="user.player.class" *ngIf="user.player" (click)="openCharModal(false)">
-    {{user.player.charName}}
+  <button mat-raised-button [ngClass]="(user.player$ | async)?.class" *ngIf="user.player$ | async" (click)="openCharModal(false)">
+    {{(user.player$ | async)?.charName}}
   </button>
-  <button mat-raised-button *ngIf="(user.afAuth.user | async)?.uid && !user.player" (click)="openCharModal(true)">
+  <button mat-raised-button *ngIf="(user.afAuth.user | async)?.uid && !(user.player$ | async)" (click)="openCharModal(true)">
     Set Character
   </button>
   <button mat-button (click)="logout()" *ngIf="(user.afAuth.user | async)?.uid">

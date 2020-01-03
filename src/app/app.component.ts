@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CharacterComponent } from './character/character.component';
 import { UserService } from './user.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +20,11 @@ export class AppComponent implements OnInit {
 
   async login() {
     const creds = await this.user.login();
-    const charDataExists = await this.user.checkCharacter(creds.user.uid);
+    this.user.hydrateCharacter(creds.user.uid);
     // if we don't already have WoW character data for this user, they must add it now
-    if (!charDataExists) { this.openCharModal(true); }
+    this.user.player$.subscribe(char => {
+      if (!char) { this.openCharModal(true); }
+    });
   }
 
   async logout() {

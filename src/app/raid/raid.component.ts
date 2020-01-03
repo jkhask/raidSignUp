@@ -41,7 +41,7 @@ export class RaidComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('signUp') && JSON.parse(urlParams.get('signUp'))) {
-      await this.raid.addPlayerToRaid(this.id, this.user.player).catch(e => {
+      await this.raid.addPlayerToRaid(this.id, await this.user.player$.toPromise()).catch(e => {
         this.snackBar.open(e, 'OK', {
           duration: 2000
         });
