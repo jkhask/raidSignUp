@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   constructor(private user: UserService, private dialog: MatDialog) { }
 
   ngOnInit() {
-    // console.log(this.user.uid);
+    console.log(this.user.uid);
   }
 
   async login() {

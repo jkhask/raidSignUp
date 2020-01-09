@@ -11,8 +11,8 @@ export interface Player { charName: string; class: string; role: string; }
 export class UserService {
 
   playersCollection: AngularFirestoreCollection<Player>;
+  player: Player;
   uid: string;
-  player: any;
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
     this.playersCollection = this.afs.collection<Player>('players');
@@ -35,10 +35,10 @@ export class UserService {
     return this.afAuth.auth.signOut();
   }
 
-  async checkCharacter(uid: string) {
+  async checkCharacter(uid: string): Promise<boolean> {
     const player = await this.playersCollection.doc(uid).get().toPromise();
     if (player.exists) {
-      this.player = player.data();
+      this.player = player.data() as Player;
       return true;
     } else {
       return false;
